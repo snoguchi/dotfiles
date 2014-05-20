@@ -1,0 +1,57 @@
+include "109.mayu"
+
+#==============================================================================
+# Global
+#==============================================================================
+# 規定のkeymap
+#  http://mayu.sourceforge.net/mayu/doc/CUSTOMIZE-ja.html#initialKeymap
+# EmacsEditなどでは親キーマップに指定されている。
+# ここにkey定義がない場合は&OtherWindowClassに連鎖する
+#  e.g. EmacsEdit -> EmacsMove -> Global -> &OtherWindowClass
+#==============================================================================
+
+keymap Global
+ mod control += 英数
+ mod control += E0英数
+ key *英数 = *LControl
+ key *E0英数 = *LControl
+ key *BrowserForward = &Ignore
+ key *BrowserBack = &Ignore
+ key C-O = $ToggleIME
+
+
+#==============================================================================
+# KeymapDefault
+#==============================================================================
+# &OtherWindowClassに連鎖しないキーマップ
+# Globalだとkeymap検索が継続してしまうため、
+#  http://mayu.sourceforge.net/mayu/doc/CUSTOMIZE-ja.html#matchManyClasses
+# 既定のキーマップをEmacsにして、例外のみ個別に指定するような場合に必要
+#==============================================================================
+
+keymap KeymapDefault = &Default
+ mod control += 英数
+ mod control += E0英数
+ key *英数 = *LControl
+ key *E0英数 = *LControl
+ key *BrowserForward = &Ignore
+ key *BrowserBack = &Ignore
+ key C-O = $ToggleIME
+
+
+#==============================================================================
+# KeymapEmacs
+#==============================================================================
+# EmacsEdit(ZXCVモード) + C-Oの上書き
+#==============================================================================
+
+define ZXCV
+include	"emacsedit.mayu"
+keymap KeymapEmacs : EmacsEdit
+ key C-O = $ToggleIME
+
+#==============================================================================
+# Rules
+#==============================================================================
+window WindowEmacs ( // || // ) : KeymapEmacs
+window WindowDefault /:(mintty|PuTTY|VTWin32|VNCMDI_Window)$/ : KeymapDefault
