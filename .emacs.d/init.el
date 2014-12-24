@@ -1,7 +1,7 @@
 ; -*- Mode: Emacs-Lisp ; Coding: utf-8 -*-
 
 ;; basics
-(add-to-list 'load-path "elisp")
+(add-to-list 'load-path "~/.emacs.d/elisp")
 (setq make-backup-files nil)
 
 ;; char code
@@ -10,9 +10,9 @@
 (setq locale-coding-system 'utf-8)
 
 ;; formatting rules
-(custom-set-variables '(tab-width 4))
 (setq-default indent-tabs-mode nil)
 (setq-default show-trailing-whitespace t)
+(setq default-tab-width 4)
 
 ;; key bindings
 (global-set-key "\C-h" 'backward-delete-char)
@@ -25,7 +25,8 @@
 (setq inhibit-startup-screen t)
 (line-number-mode t)
 (column-number-mode t)
-
+(tool-bar-mode 0)
+(scroll-bar-mode 0)
 
 ;; uniquify
 (require 'uniquify)
@@ -44,6 +45,10 @@
                ("\\.html$" . "template.html")
                ) auto-insert-alist))
 
+;; multi-term
+(require 'multi-term)
+(setq multi-term-program shell-file-name)
+
 ;; javascript-mode
 (setq javascript-indent-level 2)
 
@@ -56,3 +61,4 @@
 ;; css-mode (yet another)
 (setq cssm-indent-level 2)
 (setq cssm-indent-function #'cssm-c-style-indenter)
+
