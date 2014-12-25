@@ -48,6 +48,11 @@
 ;; multi-term
 (require 'multi-term)
 (setq multi-term-program shell-file-name)
+(add-hook 'term-mode-hook
+          (lambda ()
+            (define-key term-raw-map (kbd "C-y") 'term-paste)
+            (define-key term-raw-map (kbd "C-h") 'term-send-backspace)
+            (define-key term-raw-map (kbd "C-v") nil)))
 
 ;; javascript-mode
 (setq javascript-indent-level 2)
