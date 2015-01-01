@@ -15,11 +15,13 @@
 (setq default-tab-width 4)
 
 ;; key bindings
-(global-set-key "\C-h" 'backward-delete-char)
-(global-set-key "\C-c\C-c" 'compile)
-(global-set-key "\C-c\C-n" 'next-error)
-(global-set-key "\C-c\C-p" 'previous-error)
-(global-set-key "\M-/" 'dabbrev-expand)
+(global-set-key (kbd "C-h") 'backward-delete-char)
+(global-set-key (kbd "C-c C-c") 'compile)
+(global-set-key (kbd "C-c C-n") 'next-error)
+(global-set-key (kbd "C-c C-p") 'previous-error)
+(global-set-key (kbd "M-/") 'dabbrev-expand)
+(global-set-key (kbd "C-c n") 'multi-term-next)
+(global-set-key (kbd "C-c p") 'multi-term-prev)
 
 ;; appearance
 (setq inhibit-startup-screen t)
@@ -50,6 +52,13 @@
 (setq multi-term-program shell-file-name)
 (add-hook 'term-mode-hook
           (lambda ()
+            (setq show-trailing-whitespace nil)
+            (define-key term-raw-map (kbd "C-n") '(lambda()
+                                                    (interactive)
+                                                    (term-send-raw-string "\C-n")))
+            (define-key term-raw-map (kbd "C-p") '(lambda()
+                                                    (interactive)
+                                                    (term-send-raw-string "\C-p")))
             (define-key term-raw-map (kbd "C-y") 'term-paste)
             (define-key term-raw-map (kbd "C-h") 'term-send-backspace)
             (define-key term-raw-map (kbd "C-v") nil)))
